@@ -1,0 +1,38 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Application data and local runtime files
+*.db
+*.db-*
+backend/storage/
+*.log
+
+# Frontend dependencies and build output
+node_modules/
+dist/
+frontend/.vite/
+frontend/vite.config.js
+frontend/vite.config.d.ts
+*.tsbuildinfo
+
+# IDE and operating-system files
+.DS_Store
+.idea/
+.vscode/
+
+# Codex task artifacts
+.codex-task-runs/
