@@ -15,7 +15,7 @@ router = APIRouter(tags=["chat"])
 def _default_settings() -> SimpleNamespace:
     defaults = get_settings()
     return SimpleNamespace(chunk_size=defaults.chunk_size, chunk_overlap=defaults.chunk_overlap, top_k=defaults.top_k, temperature=defaults.temperature,
-                           llm_model=defaults.mistral_model, embedding_model=defaults.embedding_model)
+                           llm_model=None, embedding_model=defaults.embedding_model)
 
 
 def _settings(db: DbSession, user: CurrentUser) -> UserSettings:
@@ -23,7 +23,7 @@ def _settings(db: DbSession, user: CurrentUser) -> UserSettings:
     if not settings:
         defaults = get_settings()
         settings = UserSettings(owner_id=user.id, chunk_size=defaults.chunk_size, chunk_overlap=defaults.chunk_overlap,
-                                top_k=defaults.top_k, temperature=defaults.temperature, llm_model=defaults.mistral_model,
+                                top_k=defaults.top_k, temperature=defaults.temperature, llm_model=None,
                                 embedding_model=defaults.embedding_model)
         db.add(settings)
         db.commit()

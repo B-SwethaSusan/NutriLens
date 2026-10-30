@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, FileText, LayoutDashboard, MessageCircle, Settings, Sparkles, UploadCloud } from 'lucide-react'
+import { Camera, ChefHat, ChevronLeft, ChevronRight, LayoutDashboard, MessageCircle, Salad, Settings, Sparkles, TrendingUp } from 'lucide-react'
 import { cn } from '../lib/utils'
 
 const links = [
   { to: '/', label: 'Overview', icon: LayoutDashboard },
-  { to: '/documents', label: 'Documents', icon: FileText },
-  { to: '/chat', label: 'Ask NutriLens', icon: MessageCircle },
+  { to: '/diet-plan', label: 'Diet Plan', icon: Salad },
+  { to: '/progress', label: 'Progress', icon: TrendingUp },
+  { to: '/food-photo', label: 'Food Photo', icon: Camera },
+  { to: '/remedies', label: 'Home Remedies', icon: ChefHat },
+  { to: '/workspace', label: 'Documents & Chat', icon: MessageCircle },
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
 

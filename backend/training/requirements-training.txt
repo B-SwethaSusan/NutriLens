@@ -1,0 +1,39 @@
+# Training-only dependencies — run on your local GPU machine, NOT in the
+# deployed backend (keep torch/torchvision out of backend/requirements.txt
+# so the production API image stays small and CPU-only).
+#
+# IMPORTANT — RTX 50-series ("Blackwell") GPUs, including the RTX 5060, need
+# a torch build with CUDA 12.8+ support, which only landed in torch 2.7.0+.
+# A plain `pip install torch torchvision` can pull an older build that
+# won't see your GPU at all (torch.cuda.is_available() returns False, or
+# training silently runs on CPU/very slow). Install with the dedicated
+# command below instead of `pip install -r requirements-training.txt`
+# for torch/torchvision specifically:
+#
+#   python -m pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cu128
+#   python -m pip install -r requirements-training.txt   (installs onnx + pillow below)
+#
+# Use `--extra-index-url`, not `--index-url` — the latter replaces PyPI
+# entirely, so pip can't find torch's own ordinary dependencies (like
+# typing_extensions) and fails trying to build them from source instead.
+# Also use `python -m pip ...` rather than bare `pip ...` if your system
+# blocks pip.exe directly (some Windows "Application Control" policies do).
+#
+# Then verify before training:
+#   python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+# This must print "True" and your GPU's name. If it prints False or errors,
+# see https://pytorch.org/get-started/locally/ and pick a newer CUDA index
+# than cu128 if one is listed there by the time you read this.
+onnx==1.17.0
+pillow==11.1.0
+
+# Fetches Food-101 from Hugging Face's CDN instead of torchvision's built-in
+# downloader (which points at data.vision.ee.ethz.ch — an old academic
+# server that is frequently extremely slow or stalls outright).
+#
+# Deliberately left UNPINNED: `datasets` and `huggingface_hub` must be
+# mutually compatible versions (they're developed together upstream), and
+# pinning one to an old version while pip installs the other at whatever
+# is current can break resolving legacy un-namespaced dataset ids like
+# "food101". Letting pip pick both at once gets a tested-together pair.
+datasets

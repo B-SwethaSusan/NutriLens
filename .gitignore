@@ -36,3 +36,11 @@ frontend/vite.config.d.ts
 
 # Codex task artifacts
 .codex-task-runs/
+
+# Food-classifier training: cached datasets are multiple GB (one file alone
+# is 1.36 GB — GitHub rejects files over 100 MB, so committing this breaks
+# the push). The trained .onnx model + its .json files in backend/models/
+# MUST stay committed: the deployed backend serves them.
+backend/training/data/
+backend/models/*.pt
+.venv_test/

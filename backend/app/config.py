@@ -27,6 +27,11 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
     embedding_model: str = "models/text-embedding-004"
     embedding_dimensions: int = 768
+    gemini_chat_model: str = "gemini-3.8-flash"
+    # Which provider answers Chat/Diet Plan/Remedy moderation: "gemini" or
+    # "mistral". Switch here (one env var, no code change) if one provider
+    # is rate-limited or its key stops working.
+    llm_provider: Literal["gemini", "mistral"] = "gemini"
 
     chunk_size: int = 1000
     chunk_overlap: int = 200
@@ -37,7 +42,11 @@ class Settings(BaseSettings):
     redis_url: str = ""
 
     model_config = SettingsConfigDict(
-        env_file=Path(__file__).resolve().parents[2] / ".env",
+        # config.py lives at backend/app/config.py, so parents[1] is the
+        # `backend/` folder — this must match where the .env file actually
+        # sits. (Was previously parents[2], which pointed one level above
+        # `backend/` instead, so a backend/.env file was silently never read.)
+        env_file=Path(__file__).resolve().parents[1] / ".env",
         env_file_encoding="utf-8",
         extra="ignore",
     )
